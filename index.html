@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ============================================================
+       SIDEBAR: brand + navigation
+       ============================================================ -->
+  <aside class="sidebar">
+    <a class="brand" href="#dashboard">Expense Tracker</a>
+
+    <nav class="nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a class="nav-link active" href="#dashboard" aria-current="page">Dashboard</a></li>
+        <li><a class="nav-link" href="#add-income">Add Income</a></li>
+        <li><a class="nav-link" href="#add-expense">Add Expense</a></li>
+        <li><a class="nav-link" href="#transactions">Transactions</a></li>
+        <li><a class="nav-link" href="#categories">Categories</a></li>
+        <li><a class="nav-link" href="#budgets">Budgets</a></li>
+        <li><a class="nav-link" href="#reports">Reports</a></li>
+        <li><a class="nav-link" href="#savings">Savings Goals</a></li>
+        <li><a class="nav-link" href="#recurring">Recurring Payments</a></li>
+        <li><a class="nav-link" href="#settings">Settings</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- ============================================================
+       MAIN CONTENT
+       ============================================================ -->
+  <main class="main">
+
+    <header class="topbar">
+      <p class="period-label">Reporting period: <strong>All Time</strong> &middot; Updated 15 Oct 2026</p>
+      <p class="notice" role="status">Prototype: sample data only. Nothing is saved yet.</p>
+    </header>
+
+    <!-- ----------------------------------------------------------
+         DASHBOARD
+         ---------------------------------------------------------- -->
+    <section id="dashboard" class="section" aria-labelledby="dashboard-title">
+      <div class="section-head">
+        <div>
+          <h2 id="dashboard-title">Financial Overview</h2>
+          <p class="muted">All-time financial status. Amounts are sample data.</p>
+        </div>
+        <form class="period-form" action="#dashboard" method="get">
+          <label for="period">Period</label>
+          <select id="period" name="period">
+            <option selected>All Time</option>
+            <option>This Month</option>
+            <option>Last Month</option>
+            <option>This Year</option>
+          </select>
+          <button type="submit" class="btn btn-ghost">Apply</button>
+        </form>
+      </div>
+
+      <div class="summary-grid">
+        <article class="card summary-card accent-income">
+          <p class="card-label"><span class="dot dot-income"></span>Total Income</p>
+          <p class="card-value">&#8377;2,40,000.00</p>
+          <p class="card-hint">Money received, all time</p>
+        </article>
+
+        <article class="card summary-card accent-expense">
+          <p class="card-label"><span class="dot dot-expense"></span>Total Expenses</p>
+          <p class="card-value">&#8377;1,36,500.00</p>
+          <p class="card-hint">Money spent, excluding savings</p>
+        </article>
+
+        <article class="card summary-card accent-balance featured" title="Total income minus total expenses">
+          <p class="card-label"><span class="dot dot-balance"></span>Remaining Balance</p>
+          <p class="card-value">&#8377;1,03,500.00</p>
+          <p class="card-hint">Total income minus total expenses</p>
+        </article>
+
+        <article class="card summary-card accent-savings" title="Money set aside for savings goals. It is not counted again as an expense.">
+          <p class="card-label"><span class="dot dot-savings"></span>Total Savings</p>
+          <p class="card-value">&#8377;45,000.00</p>
+          <p class="card-hint">Allocated to goals, not an expense</p>
+        </article>
+      </div>
+
+      <div class="stats-row">
+        <div class="card stat">
+          <p class="stat-label">Income this month</p>
+          <p class="stat-value">&#8377;85,000.00</p>
+        </div>
+        <div class="card stat">
+          <p class="stat-label">Expenses this month</p>
+          <p class="stat-value">&#8377;42,300.00</p>
+        </div>
+        <div class="card stat" title="Savings this month divided by income this month">
+          <p class="stat-label">Savings rate</p>
+          <p class="stat-value">18%</p>
+        </div>
+        <div class="card stat">
+          <p class="stat-label">Transactions</p>
+          <p class="stat-value">47</p>
+        </div>
+      </div>
+
+      <div class="legend" aria-label="Color legend">
+        <span class="legend-item"><span class="dot dot-income"></span>Income</span>
+        <span class="legend-item"><span class="dot dot-expense"></span>Expenses</span>
+        <span class="legend-item"><span class="dot dot-savings"></span>Savings</span>
+        <span class="legend-item"><span class="dot dot-balance"></span>Remaining balance</span>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------------------------
+         ADD INCOME
+         ---------------------------------------------------------- -->
+    <section id="add-income" class="section" aria-labelledby="income-title">
+      <div class="section-head">
+        <div>
+          <h2 id="income-title">Add Income</h2>
+          <p class="muted">Record money you have received.</p>
+        </div>
+      </div>
+
+      <form class="card form form-income" action="#transactions" method="get">
+        <p class="form-note"><span class="req">*</span> Required field</p>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="inc-title">Income title or source <span class="req">*</span></label>
+            <input id="inc-title" name="inc_title" type="text" placeholder="e.g. March salary" required>
+          </div>
+
+          <div class="field">
+            <label for="inc-amount">Amount (&#8377;) <span class="req">*</span></label>
+            <input id="inc-amount" name="inc_amount" type="number" min="1" step="0.01" placeholder="0.00" required>
+          </div>
+
+          <div class="field">
+            <label for="inc-category">Income category <span class="req">*</span></label>
+            <select id="inc-category" name="inc_category" required>
+              <option value="">Select a category</option>
+              <option>Salary</option>
+              <option>Freelance</option>
+              <option>Business</option>
+              <option>Scholarship</option>
+              <option>Gift</option>
+              <option>Investment Returns</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="inc-date">Date received <span class="req">*</span></label>
+            <input id="inc-date" name="inc_date" type="date" required>
+          </div>
+
+          <div class="field">
+            <label for="inc-method">Payment method</label>
+            <select id="inc-method" name="inc_method">
+              <option>Bank Transfer</option>
+              <option>UPI</option>
+              <option>Cash</option>
+              <option>Cheque</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="field field-wide">
+            <label for="inc-notes">Description or notes <span class="optional">(optional)</span></label>
+            <textarea id="inc-notes" name="inc_notes" rows="3" placeholder="Add any extra details"></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-income">Add Income</button>
+          <button type="reset" class="btn btn-ghost">Reset Form</button>
+          <a class="btn btn-ghost" href="#transactions">Show Income</a>
+        </div>
+      </form>
+    </section>
+
+    <!-- ----------------------------------------------------------
+         ADD EXPENSE
+         ---------------------------------------------------------- -->
+    <section id="add-expense" class="section" aria-labelledby="expense-title">
+      <div class="section-head">
+        <div>
+          <h2 id="expense-title">Add Expense</h2>
+          <p class="muted">Record money you have spent.</p>
+        </div>
+      </div>
+
+      <form class="card form form-expense" action="#transactions" method="get">
+        <p class="form-note"><span class="req">*</span> Required field</p>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="exp-title">Expense title <span class="req">*</span></label>
+            <input id="exp-title" name="exp_title" type="text" placeholder="e.g. Weekly groceries" required>
+          </div>
+
+          <div class="field">
+            <label for="exp-amount">Amount (&#8377;) <span class="req">*</span></label>
+            <input id="exp-amount" name="exp_amount" type="number" min="1" step="0.01" placeholder="0.00" required>
+          </div>
+
+          <div class="field">
+            <label for="exp-category">Expense category <span class="req">*</span></label>
+            <select id="exp-category" name="exp_category" required>
+              <option value="">Select a category</option>
+              <option>Food</option>
+              <option>Transportation</option>
+              <option>Education</option>
+              <option>Shopping</option>
+              <option>Entertainment</option>
+              <option>Bills and Utilities</option>
+              <option>Healthcare</option>
+              <option>Rent and Accommodation</option>
+              <option>Subscriptions</option>
+              <option>Travel</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="exp-date">Date <span class="req">*</span></label>
+            <input id="exp-date" name="exp_date" type="date" required>
+          </div>
+
+          <div class="field">
+            <label for="exp-method">Payment method</label>
+            <select id="exp-method" name="exp_method">
+              <option>UPI</option>
+              <option>Debit Card</option>
+              <option>Credit Card</option>
+              <option>Cash</option>
+              <option>Bank Transfer</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="exp-merchant">Merchant or recipient <span class="optional">(optional)</span></label>
+            <input id="exp-merchant" name="exp_merchant" type="text" placeholder="e.g. Local Market">
+          </div>
+
+          <div class="field field-wide">
+            <label for="exp-notes">Description <span class="optional">(optional)</span></label>
+            <textarea id="exp-notes" name="exp_notes" rows="3" placeholder="Add any extra details"></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-expense">Add Expense</button>
+          <button type="reset" class="btn btn-ghost">Reset Form</button>
+          <a class="btn btn-ghost" href="#transactions">Show Expenses</a>
+        </div>
+      </form>
+    </section>
+
+    <!-- ----------------------------------------------------------
+         TRANSACTIONS
+         ---------------------------------------------------------- -->
+    <section id="transactions" class="section" aria-labelledby="transactions-title">
+      <div class="section-head">
+        <div>
+          <h2 id="transactions-title">Transactions</h2>
+          <p class="muted">Income and expenses in one table. Sample data.</p>
+        </div>
+      </div>
+
+      <form class="card toolbar" action="#transactions" method="get">
+        <div class="toolbar-grid">
+          <div class="field">
+            <label for="tx-search">Search</label>
+            <input id="tx-search" type="search" placeholder="Title, notes or ID">
+          </div>
+          <div class="field">
+            <label for="tx-type">Type</label>
+            <select id="tx-type">
+              <option>All types</option>
+              <option>Income</option>
+              <option>Expense</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="tx-category">Category</label>
+            <select id="tx-category">
+              <option>All categories</option>
+              <option>Salary</option>
+              <option>Freelance</option>
+              <option>Food</option>
+              <option>Transportation</option>
+              <option>Bills and Utilities</option>
+              <option>Rent and Accommodation</option>
+              <option>Subscriptions</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="tx-from">From date</label>
+            <input id="tx-from" type="date">
+          </div>
+          <div class="field">
+            <label for="tx-to">To date</label>
+            <input id="tx-to" type="date">
+          </div>
+          <div class="field">
+            <label for="tx-sort">Sort by</label>
+            <select id="tx-sort">
+              <option>Date (newest first)</option>
+              <option>Date (oldest first)</option>
+              <option>Amount (high to low)</option>
+              <option>Amount (low to high)</option>
+              <option>Title (A to Z)</option>
+            </select>
+          </div>
+        </div>
+        <div class="toolbar-actions">
+          <button type="reset" class="btn btn-ghost">Clear Filters</button>
+          <button type="button" class="btn btn-ghost" disabled title="Export is not available in this prototype">Export CSV</button>
+        </div>
+      </form>
+
+      <div class="table-wrap card">
+        <table class="tx-table">
+          <caption class="sr-only">Sample transactions</caption>
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Date</th>
+              <th scope="col">Title</th>
+              <th scope="col">Category</th>
+              <th scope="col">Type</th>
+              <th scope="col">Payment</th>
+              <th scope="col" class="num">Amount</th>
+              <th scope="col">Notes</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>TX-1001</td>
+              <td>02 Oct 2026</td>
+              <td>Monthly Salary</td>
+              <td>Salary</td>
+              <td><span class="badge badge-income">Income</span></td>
+              <td>Bank Transfer</td>
+              <td class="num amount-income">+&#8377;85,000.00</td>
+              <td>October salary</td>
+              <td class="actions">
+                <a href="#add-income">Edit</a>
+                <a href="#confirm-delete" class="danger">Delete</a>
+              </td>
+            </tr>
+            <tr>
+              <td>TX-1002</td>
+              <td>03 Oct 2026</td>
+              <td>Flat Rent</td>
+              <td>Rent and Accommodation</td>
+              <td><span class="badge badge-expense">Expense</span></td>
+              <td>Bank Transfer</td>
+              <td class="num amount-expense">&minus;&#8377;22,000.00</td>
+              <td>Monthly rent</td>
+              <td class="actions">
+                <a href="#add-expense">Edit</a>
+                <a href="#confirm-delete" class="danger">Delete</a>
+              </td>
+            </tr>
+            <tr>
+              <td>TX-1003</td>
+              <td>05 Oct 2026</td>
+              <td>Grocery Run</td>
+              <td>Food</td>
+              <td><span class="badge badge-expense">Expense</span></td>
+              <td>UPI</td>
+              <td class="num amount-expense">&minus;&#8377;3,450.00</td>
+              <td>Weekly groceries</td>
+              <td class="actions">
+                <a href="#add-expense">Edit</a>
+                <a href="#confirm-delete" class="danger">Delete</a>
+              </td>
+            </tr>
+            <tr>
+              <td>TX-1004</td>
+              <td>08 Oct 2026</td>
+              <td>Metro Card Recharge</td>
+              <td>Transportation</td>
+              <td><span class="badge badge-expense">Expense</span></td>
+              <td>Debit Card</td>
+              <td class="num amount-expense">&minus;&#8377;1,200.00</td>
+              <td>Monthly travel</td>
+              <td class="actions">
+                <a href="#add-expense">Edit</a>
+                <a href="#confirm-delete" class="danger">Delete</a>
+              </td>
+            </tr>
+            <tr>
+              <td>TX-1005</td>
+              <td>10 Oct 2026</td>
+              <td>Website Project</td>
+              <td>Freelance</td>
+              <td><span class="badge badge-income">Income</span></td>
+              <td>Bank Transfer</td>
+              <td class="num amount-income">+&#8377;18,000.00</td>
+              <td>Client payment</td>
+              <td class="actions">
+                <a href="#add-income">Edit</a>
+                <a href="#confirm-delete" class="danger">Delete</a>
+              </td>
+            </tr>
+            <tr>
+              <td>TX-1006</td>
+              <td>12 Oct 2026</td>
+              <td>Electricity Bill</td>
+              <td>Bills and Utilities</td>
+              <td><span class="badge badge-expense">Expense</span></td>
+              <td>UPI</td>
+              <td class="num amount-expense">&minus;&#8377;2,150.00</td>
+              <td>Monthly bill</td>
+              <td class="actions">
+                <a href="#add-expense">Edit</a>
+                <a href="#confirm-delete" class="danger">Delete</a>
+              </td>
+            </tr>
+            <tr>
+              <td>TX-1007</td>
+              <td>14 Oct 2026</td>
+              <td>Streaming Subscription</td>
+              <td>Subscriptions</td>
+              <td><span class="badge badge-expense">Expense</span></td>
+              <td>Credit Card</td>
+              <td class="num amount-expense">&minus;&#8377;649.00</td>
+              <td>Monthly plan</td>
+              <td class="actions">
+                <a href="#add-expense">Edit</a>
+                <a href="#confirm-delete" class="danger">Delete</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="totals-grid">
+        <div class="card stat">
+          <p class="stat-label">Matching transactions</p>
+          <p class="stat-value">7</p>
+        </div>
+        <div class="card stat">
+          <p class="stat-label">Total income (selected)</p>
+          <p class="stat-value amount-income">&#8377;1,03,000.00</p>
+        </div>
+        <div class="card stat">
+          <p class="stat-label">Total expenses (selected)</p>
+          <p class="stat-value amount-expense">&#8377;29,449.00</p>
+        </div>
+        <div class="card stat">
+          <p class="stat-label">Net (selected)</p>
+          <p class="stat-value">&#8377;73,551.00</p>
+        </div>
+      </div>
+
+      <div class="card empty-preview">
+        <h3>Empty state preview</h3>
+        <p class="muted">This is how the table looks when no transactions match the filters.</p>
+        <div class="empty-state">
+          <p class="empty-title">No transactions found</p>
+          <p class="muted">Try changing the filters, or add your first income or expense.</p>
+          <div class="form-actions">
+            <a class="btn btn-income" href="#add-income">Add Income</a>
+            <a class="btn btn-expense" href="#add-expense">Add Expense</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------------------------
+         CATEGORIES
+         ---------------------------------------------------------- -->
+    <section id="categories" class="section" aria-labelledby="categories-title">
+      <div class="section-head">
+        <div>
+          <h2 id="categories-title">Categories</h2>
+          <p class="muted">Income categories are green and expense categories are red. Counts and totals are sample data.</p>
+        </div>
+      </div>
+
+      <div class="category-grid">
+        <article class="card category-card cat-income">
+          <div class="category-top">
+            <h3>Salary</h3>
+            <span class="badge badge-income">Income</span>
+          </div>
+          <p class="muted">Transactions: 12</p>
+          <p class="category-total">&#8377;1,02,000.00</p>
+          <div class="card-actions">
+            <button type="button" class="btn btn-ghost btn-small" disabled>Edit</button>
+            <button type="button" class="btn btn-ghost btn-small" disabled>Delete</button>
+          </div>
+        </article>
+
+        <article class="card category-card cat-income">
+          <div class="category-top">
+            <h3>Freelance</h3>
+            <span class="badge badge-income">Income</span>
+          </div>
+          <p class="muted">Transactions: 6</p>
+          <p class="category-total">&#8377;72,000.00</p>
+          <div class="card-actions">
+            <button type="button" class="btn btn-ghost btn-small" disabled>Edit</button>
+            <button type="button" class="btn btn-ghost btn-small" disabled>Delete</button>
+          </div>
+        </article>
+
+        <article class="card category-card cat-expense">
+          <div class="category-top">
+            <h3>Rent and Accommodation</h3>
+            <span class="badge badge-expense">Expense</span>
+          </div>
+          <p class="muted">Transactions: 12</p>
+          <p class="category-total">&#8377;2,64,000.00</p>
+          <div class="card-actions">
+            <button type="button" class="btn btn-ghost btn-small" disabled>Edit</button>
+            <button type="button" class="btn btn-ghost btn-small" disabled>Delete</button>
+          </div>
+        </article>
+
+        <article class="card category-card cat-expense">
+          <div class="category-top">
+            <h3>Food</h3>
+            <span class="badge badge-expense">Expense</span>
+          </div>
+          <p class="muted">Transactions: 18</p>
+          <p class="category-total">&#8377;24,800.00</p>
+          <div class="card-actions">
+            <button type="button" class="btn btn-ghost btn-small" disabled>Edit</button>
+            <button type="button" class="btn btn-ghost btn-small" disabled>Delete</button>
+          </div>
+        </article>
+
+        <article class="card category-card cat-expense">
+          <div class="category-top">
+            <h3>Transportation</h3>
+            <span class="badge badge-expense">Expense</span>
+          </div>
+          <p class="muted">Transactions: 9</p>
+          <p class="category-total">&#8377;6,300.00</p>
+          <div class="card-actions">
+            <button type="button" class="btn btn-ghost btn-small" disabled>Edit</button>
+            <button type="button" class="btn btn-ghost btn-small" disabled>Delete</button>
+          </div>
+        </article>
+
+        <article class="card category-card cat-expense">
+          <div class="category-top">
+            <h3>Bills and Utilities</h3>
+            <span class="badge badge-expense">Expense</span>
+          </div>
+          <p class="muted">Transactions: 8</p>
+          <p class="category-total">&#8377;11,900.00</p>
+          <div class="card-actions">
+            <button type="button" class="btn btn-ghost btn-small" disabled>Edit</button>
+            <button type="button" class="btn btn-ghost btn-small" disabled>Delete</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------------------------
+         BUDGETS
+         ---------------------------------------------------------- -->
+    <section id="budgets" class="section" aria-labelledby="budgets-title">
+      <div class="section-head">
+        <div>
+          <h2 id="budgets-title">Budgets</h2>
+          <p class="muted">Monthly limits per category. Amounts are sample data.</p>
+        </div>
+        <div class="head-actions">
+          <a class="btn btn-expense" href="#budgets">Add Budget</a>
+          <a class="btn btn-ghost" href="#budgets">Edit Budget</a>
+        </div>
+      </div>
+
+      <div class="budget-grid">
+        <article class="card budget-card">
+          <div class="category-top">
+            <div>
+              <h3>Food Budget</h3>
+              <p class="muted">Category: Food</p>
+            </div>
+            <span class="badge badge-ok">On track</span>
+          </div>
+          <dl class="budget-figures">
+            <div><dt>Monthly limit</dt><dd>&#8377;8,000.00</dd></div>
+            <div><dt>Spent</dt><dd>&#8377;4,950.00</dd></div>
+            <div><dt>Remaining</dt><dd>&#8377;3,050.00</dd></div>
+          </dl>
+          <div class="progress" role="meter" aria-label="Food budget used" aria-valuemin="0" aria-valuemax="100" aria-valuenow="62">
+            <div class="progress-bar bar-ok" style="--value: 62%"></div>
+          </div>
+          <p class="muted small">62% used</p>
+        </article>
+
+        <article class="card budget-card">
+          <div class="category-top">
+            <div>
+              <h3>Transport Budget</h3>
+              <p class="muted">Category: Transportation</p>
+            </div>
+            <span class="badge badge-warn">Approaching limit</span>
+          </div>
+          <dl class="budget-figures">
+            <div><dt>Monthly limit</dt><dd>&#8377;1,500.00</dd></div>
+            <div><dt>Spent</dt><dd>&#8377;1,200.00</dd></div>
+            <div><dt>Remaining</dt><dd>&#8377;300.00</dd></div>
+          </dl>
+          <div class="progress" role="meter" aria-label="Transport budget used" aria-valuemin="0" aria-valuemax="100" aria-valuenow="80">
+            <div class="progress-bar bar-warn" style="--value: 80%"></div>
+          </div>
+          <p class="muted small">80% used</p>
+        </article>
+
+        <article class="card budget-card">
+          <div class="category-top">
+            <div>
+              <h3>Shopping Budget</h3>
+              <p class="muted">Category: Shopping</p>
+            </div>
+            <span class="badge badge-over">Exceeded</span>
+          </div>
+          <dl class="budget-figures">
+            <div><dt>Monthly limit</dt><dd>&#8377;3,000.00</dd></div>
+            <div><dt>Spent</dt><dd>&#8377;3,450.00</dd></div>
+            <div><dt>Remaining</dt><dd class="amount-expense">&minus;&#8377;450.00</dd></div>
+          </dl>
+          <div class="progress" role="meter" aria-label="Shopping budget used" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
+            <div class="progress-bar bar-over" style="--value: 100%"></div>
+          </div>
+          <p class="muted small">115% used</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------------------------
+         REPORTS
+         ---------------------------------------------------------- -->
+    <section id="reports" class="section" aria-labelledby="reports-title">
+      <div class="section-head">
+        <div>
+          <h2 id="reports-title">Reports</h2>
+          <p class="muted">All charts below are static sample visuals, not live data.</p>
+        </div>
+      </div>
+
+      <div class="report-grid">
+        <article class="card report-card report-wide">
+          <h3>Income versus expenses (last 6 months)</h3>
+          <div class="bar-chart" role="img" aria-label="Sample bar chart of income and expenses for six months">
+            <div class="bar-group">
+              <div class="bars">
+                <span class="bar bar-income" style="--value: 80%"></span>
+                <span class="bar bar-expense" style="--value: 52%"></span>
+              </div>
+              <span class="bar-label">May</span>
+            </div>
+            <div class="bar-group">
+              <div class="bars">
+                <span class="bar bar-income" style="--value: 85%"></span>
+                <span class="bar bar-expense" style="--value: 60%"></span>
+              </div>
+              <span class="bar-label">Jun</span>
+            </div>
+            <div class="bar-group">
+              <div class="bars">
+                <span class="bar bar-income" style="--value: 78%"></span>
+                <span class="bar bar-expense" style="--value: 55%"></span>
+              </div>
+              <span class="bar-label">Jul</span>
+            </div>
+            <div class="bar-group">
+              <div class="bars">
+                <span class="bar bar-income" style="--value: 92%"></span>
+                <span class="bar bar-expense" style="--value: 64%"></span>
+              </div>
+              <span class="bar-label">Aug</span>
+            </div>
+            <div class="bar-group">
+              <div class="bars">
+                <span class="bar bar-income" style="--value: 88%"></span>
+                <span class="bar bar-expense" style="--value: 49%"></span>
+              </div>
+              <span class="bar-label">Sep</span>
+            </div>
+            <div class="bar-group">
+              <div class="bars">
+                <span class="bar bar-income" style="--value: 100%"></span>
+                <span class="bar bar-expense" style="--value: 50%"></span>
+              </div>
+              <span class="bar-label">Oct</span>
+            </div>
+          </div>
+          <p class="legend small">
+            <span class="legend-item"><span class="dot dot-income"></span>Income</span>
+            <span class="legend-item"><span class="dot dot-expense"></span>Expenses</span>
+          </p>
+        </article>
+
+        <article class="card report-card">
+          <h3>Monthly financial summary</h3>
+          <table class="simple-table">
+            <tbody>
+              <tr><th scope="row">Income</th><td class="num amount-income">&#8377;85,000.00</td></tr>
+              <tr><th scope="row">Expenses</th><td class="num amount-expense">&#8377;42,300.00</td></tr>
+              <tr><th scope="row">Savings allocated</th><td class="num amount-savings">&#8377;15,000.00</td></tr>
+              <tr><th scope="row">Left over</th><td class="num">&#8377;27,700.00</td></tr>
+            </tbody>
+          </table>
+        </article>
+
+        <article class="card report-card">
+          <h3>Category-wise expense breakdown</h3>
+          <ul class="breakdown">
+            <li>
+              <span>Rent and Accommodation</span>
+              <div class="progress"><div class="progress-bar bar-expense" style="--value: 52%"></div></div>
+              <span class="num">52%</span>
+            </li>
+            <li>
+              <span>Food</span>
+              <div class="progress"><div class="progress-bar bar-expense" style="--value: 18%"></div></div>
+              <span class="num">18%</span>
+            </li>
+            <li>
+              <span>Shopping</span>
+              <div class="progress"><div class="progress-bar bar-expense" style="--value: 11%"></div></div>
+              <span class="num">11%</span>
+            </li>
+            <li>
+              <span>Bills and Utilities</span>
+              <div class="progress"><div class="progress-bar bar-expense" style="--value: 9%"></div></div>
+              <span class="num">9%</span>
+            </li>
+            <li>
+              <span>Other</span>
+              <div class="progress"><div class="progress-bar bar-expense" style="--value: 10%"></div></div>
+              <span class="num">10%</span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="card report-card">
+          <h3>Key indicators</h3>
+          <dl class="indicators">
+            <div><dt>Savings rate</dt><dd class="amount-savings">18%</dd></div>
+            <div><dt>Spending trend</dt><dd>Up 4% from last month</dd></div>
+            <div><dt>Highest expense category</dt><dd>Rent and Accommodation</dd></div>
+          </dl>
+        </article>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------------------------
+         SAVINGS GOALS
+         ---------------------------------------------------------- -->
+    <section id="savings" class="section" aria-labelledby="savings-title">
+      <div class="section-head">
+        <div>
+          <h2 id="savings-title">Savings Goals</h2>
+          <p class="muted">Money set aside for goals is shown as savings. It is not added again as an expense.</p>
+        </div>
+        <div class="head-actions">
+          <a class="btn btn-savings" href="#savings">Create Goal</a>
+          <a class="btn btn-ghost" href="#savings">Add to Savings</a>
+        </div>
+      </div>
+
+      <div class="goal-grid">
+        <article class="card goal-card">
+          <h3>Emergency Fund</h3>
+          <dl class="budget-figures">
+            <div><dt>Target</dt><dd>&#8377;1,00,000.00</dd></div>
+            <div><dt>Saved</dt><dd class="amount-savings">&#8377;45,000.00</dd></div>
+            <div><dt>Remaining</dt><dd>&#8377;55,000.00</dd></div>
+          </dl>
+          <p class="muted small">Target date: 31 Mar 2027</p>
+          <div class="progress"><div class="progress-bar bar-savings" style="--value: 45%"></div></div>
+          <div class="card-actions">
+            <a class="btn btn-ghost btn-small" href="#savings">Edit Goal</a>
+            <a class="btn btn-ghost btn-small" href="#savings">View Details</a>
+          </div>
+        </article>
+
+        <article class="card goal-card">
+          <h3>Laptop Upgrade</h3>
+          <dl class="budget-figures">
+            <div><dt>Target</dt><dd>&#8377;80,000.00</dd></div>
+            <div><dt>Saved</dt><dd class="amount-savings">&#8377;0.00</dd></div>
+            <div><dt>Remaining</dt><dd>&#8377;80,000.00</dd></div>
+          </dl>
+          <p class="muted small">Target date: 31 Dec 2026</p>
+          <div class="progress"><div class="progress-bar bar-savings" style="--value: 0%"></div></div>
+          <div class="card-actions">
+            <a class="btn btn-ghost btn-small" href="#savings">Edit Goal</a>
+            <a class="btn btn-ghost btn-small" href="#savings">View Details</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------------------------
+         RECURRING PAYMENTS
+         ---------------------------------------------------------- -->
+    <section id="recurring" class="section" aria-labelledby="recurring-title">
+      <div class="section-head">
+        <div>
+          <h2 id="recurring-title">Recurring Payments</h2>
+          <p class="muted">Subscriptions and bills that repeat. Sample data.</p>
+        </div>
+        <div class="head-actions">
+          <a class="btn btn-expense" href="#recurring">Add Recurring Payment</a>
+        </div>
+      </div>
+
+      <div class="table-wrap card">
+        <table class="tx-table">
+          <caption class="sr-only">Recurring payments</caption>
+          <thead>
+            <tr>
+              <th scope="col">Payment</th>
+              <th scope="col" class="num">Amount</th>
+              <th scope="col">Category</th>
+              <th scope="col">Frequency</th>
+              <th scope="col">Next due</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Streaming Subscription</td>
+              <td class="num amount-expense">&minus;&#8377;649.00</td>
+              <td>Subscriptions</td>
+              <td>Monthly</td>
+              <td>14 Nov 2026</td>
+              <td><span class="badge badge-ok">Active</span></td>
+            </tr>
+            <tr>
+              <td>Flat Rent</td>
+              <td class="num amount-expense">&minus;&#8377;22,000.00</td>
+              <td>Rent and Accommodation</td>
+              <td>Monthly</td>
+              <td>03 Nov 2026</td>
+              <td><span class="badge badge-warn">Due soon</span></td>
+            </tr>
+            <tr>
+              <td>Car Insurance</td>
+              <td class="num amount-expense">&minus;&#8377;6,800.00</td>
+              <td>Bills and Utilities</td>
+              <td>Yearly</td>
+              <td>01 Jan 2027</td>
+              <td><span class="badge badge-ok">Active</span></td>
+            </tr>
+            <tr>
+              <td>Cloud Storage</td>
+              <td class="num amount-expense">&minus;&#8377;1,300.00</td>
+              <td>Subscriptions</td>
+              <td>Quarterly</td>
+              <td>01 Jan 2027</td>
+              <td><span class="badge badge-muted">Paused</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------------------------
+         SETTINGS
+         ---------------------------------------------------------- -->
+    <section id="settings" class="section" aria-labelledby="settings-title">
+      <div class="section-head">
+        <div>
+          <h2 id="settings-title">Settings</h2>
+          <p class="muted">Preferences for this prototype.</p>
+        </div>
+      </div>
+
+      <form class="card form" action="#settings" method="get">
+        <p class="notice-inline">Settings are not saved in this prototype.</p>
+        <div class="form-grid">
+          <div class="field">
+            <label for="set-currency">Preferred currency</label>
+            <select id="set-currency">
+              <option selected>INR (&#8377;)</option>
+              <option>USD ($)</option>
+              <option>EUR (&euro;)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="set-date">Date format</label>
+            <select id="set-date">
+              <option selected>DD MMM YYYY</option>
+              <option>DD/MM/YYYY</option>
+              <option>MM/DD/YYYY</option>
+              <option>YYYY-MM-DD</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="set-theme">Theme</label>
+            <select id="set-theme">
+              <option selected>Dark</option>
+              <option>Light</option>
+              <option>System</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="set-period">Default dashboard period</label>
+            <select id="set-period">
+              <option selected>All Time</option>
+              <option>This Month</option>
+              <option>Last Month</option>
+              <option>This Year</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="privacy">
+          <h3>Data privacy</h3>
+          <p class="muted">In the full version, your financial data would be stored only on your device or in your own account. This prototype does not collect or send any data.</p>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-ghost">Save Settings</button>
+          <a class="btn btn-danger" href="#confirm-reset">Reset Demo Data</a>
+        </div>
+      </form>
+    </section>
+
+    <footer class="footer">
+      <p>Expense Tracker &middot; Frontend prototype &middot; Sample data only</p>
+    </footer>
+
+  </main>
+</div>
+
+<!-- ============================================================
+     CONFIRMATION DIALOGS (CSS-only, shown with :target)
+     ============================================================ -->
+<div id="confirm-delete" class="modal" role="dialog" aria-modal="true" aria-labelledby="delete-title">
+  <div class="modal-box card">
+    <h3 id="delete-title">Delete this transaction?</h3>
+    <p class="muted">This action cannot be undone in the full version. This prototype does not delete anything.</p>
+    <div class="form-actions">
+      <a class="btn btn-danger" href="#transactions">Delete</a>
+      <a class="btn btn-ghost" href="#transactions">Cancel</a>
+    </div>
+  </div>
+</div>
+
+<div id="confirm-reset" class="modal" role="dialog" aria-modal="true" aria-labelledby="reset-title">
+  <div class="modal-box card">
+    <h3 id="reset-title">Reset demo data?</h3>
+    <p class="muted">All sample records would be cleared. This prototype does not change any data.</p>
+    <div class="form-actions">
+      <a class="btn btn-danger" href="#settings">Reset</a>
+      <a class="btn btn-ghost" href="#settings">Cancel</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
